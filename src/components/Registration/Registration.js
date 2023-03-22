@@ -103,7 +103,7 @@ function Registration() {
 				<p className='formIn__under-button'>
 					Уже зарегистрированы?
 					<span>
-						<Link className='formIn__link' to='/login'>
+						<Link className='formIn__link' to='/signin'>
 							Войти
 						</Link>
 					</span>

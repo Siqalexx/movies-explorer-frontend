@@ -28,12 +28,6 @@ function SavedMovies() {
 			photoLink:
 				'https://speedcam.online/wp-content/uploads/2019/11/photo_2019-11-07_14-27-54.jpg',
 		},
-		{
-			title: '34 слова о дизайне',
-			duration: '1ч 47м',
-			photoLink:
-				'https://speedcam.online/wp-content/uploads/2019/11/photo_2019-11-07_14-27-54.jpg',
-		},
 	];
 
 	return (

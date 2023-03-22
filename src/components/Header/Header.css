@@ -140,8 +140,6 @@
 }
 
 .active {
-	border: 2px solid #ffffff;
-	border-style: none none solid none;
 	font-weight: 500;
 }
 

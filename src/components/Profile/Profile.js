@@ -54,7 +54,7 @@ function Profile() {
 					>
 						Редактировать
 					</Link>
-					<Link to='/login' className='profile__link profile__link_signout'>
+					<Link to='/signin' className='profile__link profile__link_signout'>
 						Выйти из аккаунта
 					</Link>
 				</>
