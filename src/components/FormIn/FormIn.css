@@ -1,0 +1,143 @@
+.formIn {
+	width: 100%;
+	max-width: 396px;
+	margin: 70px 0;
+}
+
+.formIn__logo {
+	width: 38px;
+	height: 38px;
+	display: flex;
+}
+
+.formIn__title {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 29px;
+	color: #ffffff;
+	text-align: start;
+	margin: 40px 0;
+}
+
+.formIn__email {
+	background: none;
+	border: none;
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 17px;
+	color: #ffffff;
+	border: 1px solid #424242;
+	border-style: none none solid none;
+	padding: 5px 0 10px;
+	width: 100%;
+	margin: 5px 0 6px;
+}
+.formIn__email-block {
+	margin: 0 0 24px;
+}
+.formIn__input-text {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 10px;
+	line-height: 12px;
+	color: #8b8b8b;
+	margin: 0;
+	text-align: start;
+}
+
+.formIn__input-message {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 10px;
+	line-height: 12px;
+	color: #ee3465;
+	display: flex;
+	text-align: start;
+	align-items: center;
+	justify-content: start;
+	min-height: 31px;
+}
+
+.formIn__password {
+	background: none;
+	border: none;
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 17px;
+	color: #ffffff;
+	border: 1px solid #424242;
+	border-style: none none solid none;
+	padding: 10px 0 10px;
+	margin: 5px 0 0;
+	width: 100%;
+}
+
+.formIn__submit {
+	border: none;
+	background: #4285f4;
+	border-radius: 3px;
+	max-width: 396px;
+	width: 100%;
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 17px;
+	text-align: center;
+	color: #ffffff;
+	padding: 14px 0;
+	margin: 221px 0 16px;
+}
+
+.formIn__under-button {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 17px;
+	text-align: center;
+	color: #8b8b8b;
+	margin: 0;
+}
+
+.formIn__link {
+	margin-left: 6px;
+	color: #4285f4;
+	text-decoration: none;
+}
+
+.formIn__input-error {
+	color: #ee3465;
+}
+
+@media screen and (max-width: 450px) {
+	.formIn {
+		width: 100%;
+		max-width: 260px;
+		margin: 70px 0;
+	}
+	.formIn__submit {
+		margin: 324px 0 14px;
+		font-size: 12px;
+		line-height: 15px;
+	}
+	.formIn__under-button {
+		font-size: 12px;
+		line-height: 15px;
+	}
+	.formIn__title {
+		margin: 50px 0 80px;
+		text-align: center;
+	}
+	.formIn__logo {
+		display: inline;
+	}
+}
