@@ -17,9 +17,7 @@ function MoviesCard({ title, duration, photoLink }) {
 					className={` moviesCard__saved ${
 						isMovieSaved ? 'moviesCard__saved_active' : ''
 					}`}
-				>
-					<div className='moviesCard__saved-icon'></div>
-				</button>
+				></button>
 			</div>
 			<img alt={title} src={photoLink} className='moviesCard__image'></img>
 		</div>

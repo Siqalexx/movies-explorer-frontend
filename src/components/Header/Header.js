@@ -24,7 +24,7 @@ function Header() {
 					</Link>
 					<button
 						onClick={() => {
-							history('/login');
+							history('/signin');
 						}}
 						className='header__button'
 					>

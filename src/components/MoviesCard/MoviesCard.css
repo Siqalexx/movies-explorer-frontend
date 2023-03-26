@@ -58,23 +58,19 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	padding: 0;
 	transition: 0.5s;
-}
-
-.moviesCard__saved-icon {
-	width: 10px;
-	height: 13px;
 	background-image: url('../../images/saved-movie-icon.svg');
-	align-self: center;
 	background-repeat: no-repeat;
+	background-position: center;
 	transition: 0.5s;
 }
 
 .moviesCard__saved_active {
-	background: #3ddc84;
+	background-color: #3ddc84;
 }
 
-.moviesCard__saved_active > .moviesCard__saved-icon {
+.moviesCard__saved_active {
 	background-image: url('../../images/saved-movie-icon_white.svg');
 }
 

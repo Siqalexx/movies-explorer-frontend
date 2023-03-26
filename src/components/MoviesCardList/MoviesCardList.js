@@ -4,31 +4,35 @@ function MoviesCardList({ isListCards, setListCards }) {
 	const saved = setListCards === undefined ? true : false;
 	return (
 		<section className='moviesCardList'>
-			<div className='moviesCardList__container'>
+			<ul className='moviesCardList__container'>
 				{saved
 					? isListCards.map((card, index) => {
 							return (
-								<MoviesCard
-									key={index} //пока индекс
-									title={card.title}
-									duration={card.duration}
-									photoLink={card.photoLink}
-								/>
-							);
-					  })
-					: isListCards.cards
-							.slice(0, isListCards.cardsShow)
-							.map((card, index) => {
-								return (
+								<li>
 									<MoviesCard
 										key={index} //пока индекс
 										title={card.title}
 										duration={card.duration}
 										photoLink={card.photoLink}
 									/>
+								</li>
+							);
+					  })
+					: isListCards.cards
+							.slice(0, isListCards.cardsShow)
+							.map((card, index) => {
+								return (
+									<li className='moviesCardList__movie'>
+										<MoviesCard
+											key={index} //пока индекс
+											title={card.title}
+											duration={card.duration}
+											photoLink={card.photoLink}
+										/>
+									</li>
 								);
 							})}
-			</div>
+			</ul>
 
 			{!saved && (
 				<button

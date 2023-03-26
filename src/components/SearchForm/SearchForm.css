@@ -42,6 +42,7 @@
 
 .searchForm__input:focus {
 	outline: none;
+	font-weight: 500;
 }
 
 .searchForm__find {
