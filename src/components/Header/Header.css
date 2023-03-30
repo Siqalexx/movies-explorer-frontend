@@ -1,0 +1,254 @@
+.header {
+	width: 100%;
+	max-width: 1280px;
+	display: flex;
+	justify-content: space-between;
+	padding: 18px 70px;
+	box-sizing: border-box;
+	position: fixed;
+	z-index: 1;
+	background: #202020;
+}
+
+.header__logo {
+	width: 38px;
+	height: 38px;
+	transition: all 0.5s;
+	cursor: pointer;
+}
+
+.header__logo:hover {
+	opacity: 0.6;
+}
+
+.header__menu {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.header__link {
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 133%;
+	text-decoration: none;
+	color: #ffffff;
+	margin-right: 30px;
+	transition: all 0.5s ease;
+}
+
+.header__link:hover {
+	opacity: 0.6;
+}
+
+.header__button {
+	border: none;
+	background: #3ddc84;
+	border-radius: 3px;
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 133%;
+	color: #000000;
+	padding: 8px 20px;
+	cursor: pointer;
+	transition: all 0.5s ease;
+}
+
+.header__button:hover {
+	opacity: 0.6;
+}
+
+.header__src {
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 138%;
+	text-align: right;
+	color: #ffffff;
+	text-decoration: none;
+	transition: opacity 0.5s;
+	padding-bottom: 4px;
+	box-sizing: border-box;
+}
+
+.header__src:hover {
+	opacity: 0.6;
+}
+
+.header__account {
+	border: none;
+	background: #313131;
+	border-radius: 20px;
+	width: 100px;
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 114%;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	color: #ffffff;
+	padding: 8px 0;
+	cursor: pointer;
+	transition: all 0.5s;
+}
+
+.header__account:hover {
+	opacity: 0.6;
+}
+
+.header__links {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+}
+
+.header__burger {
+	display: none;
+	border: none;
+	background: none;
+	width: 44px;
+	height: 44px;
+	position: relative;
+	padding: 0;
+}
+
+.header__burger span {
+	position: absolute;
+	width: 28px;
+	height: 3px;
+	background-color: #ffffff;
+	left: 8px;
+	transition: all 0.5s;
+}
+.header__burger span:nth-child(1) {
+	transform: translateY(-10px);
+}
+
+.header__burger span:nth-child(3) {
+	transform: translateY(10px);
+}
+
+.header__src_burger {
+	display: none;
+}
+
+.active {
+	font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+	.header {
+		max-width: 768px;
+		padding: 18px 30px;
+	}
+
+	.header__burger {
+		display: block;
+		z-index: 11;
+	}
+
+	.header__bg-burger {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		background: none;
+		background-color: rgba(0, 0, 0, 0.3);
+		z-index: 1;
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.5s;
+	}
+
+	.header__burger.open span:nth-child(1) {
+		transform: translateY(0px) rotate(-45deg);
+	}
+
+	.header__burger.open span:nth-child(2) {
+		opacity: 0;
+	}
+
+	.header__burger.open span:nth-child(3) {
+		transform: translateY(0px) rotate(45deg);
+	}
+
+	.header__burger.open body {
+		overflow: hidden;
+	}
+
+	.header__links {
+		gap: 28px;
+	}
+
+	.header__links_burger {
+		z-index: 10;
+		position: absolute;
+		width: 100%;
+		max-width: 520px;
+		height: 100%;
+		padding: 100px 0px 80px 0px;
+		right: 0;
+		top: -100%;
+		background: #202020;
+		transition: all 0.5s;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.header__src_burger {
+		display: block;
+	}
+
+	.header__account {
+		margin: 400px 0 0;
+	}
+
+	.open {
+		top: 0;
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+@media screen and (max-width: 520px) {
+	.header__links_burger {
+		max-width: 100%;
+	}
+	.header__src {
+		font-size: 18px;
+		line-height: 22px;
+	}
+}
+
+@media screen and (max-width: 380px) {
+	.header {
+		max-width: 380px;
+		padding: 18px 15px;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.header {
+		max-width: 320px;
+		padding: 18px 14px;
+	}
+	.header__link {
+		margin-right: 14px;
+		font-size: 10px;
+		line-height: 160%;
+	}
+	.header__button {
+		padding: 5px 12px;
+		font-size: 10px;
+		line-height: 160%;
+	}
+}

@@ -1,0 +1,116 @@
+.portfolio {
+	width: 100%;
+	max-width: 1280px;
+}
+
+.portfolio__title {
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 111%;
+	color: #8b8b8b;
+	mix-blend-mode: normal;
+	margin: 0 0 50px;
+	text-align: start;
+}
+
+.portfolio__links {
+	margin: 0;
+	padding: 0;
+}
+
+.portfolio__link {
+	list-style: none;
+}
+
+.portfolio__src {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	border: 1px solid #424242;
+	border-style: none none solid none;
+	margin-bottom: 20px;
+	transition: all 0.5s;
+	cursor: pointer;
+}
+
+.portfolio__src:hover {
+	opacity: 0.6;
+}
+
+.portfolio__link:nth-child(3) > .portfolio__src {
+	border: none;
+	margin: 0;
+	margin-bottom: 115px;
+}
+
+.portfolio__link:nth-child(3) > .portfolio__src > .portfolio__icon {
+	padding: 0;
+}
+
+.portfolio__text {
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 30px;
+	line-height: 167%;
+	letter-spacing: -0.04em;
+	color: #ffffff;
+	margin: 0;
+	display: flex;
+	align-items: center;
+}
+
+.portfolio__icon {
+	background-image: url('../../images/portfolio-icon.svg');
+	background-repeat: no-repeat;
+	width: 30px;
+	height: 60px;
+	background-position: center;
+	padding-bottom: 9px;
+}
+
+@media screen and (max-width: 768px) {
+	.portfolio__text {
+		font-size: 28px;
+		line-height: 179%;
+	}
+
+	.portfolio__link:nth-child(3) > .portfolio__src {
+		margin-bottom: 90px;
+	}
+}
+
+@media screen and (max-width: 530px) {
+	.portfolio__text {
+		font-size: 18px;
+		line-height: 156%;
+	}
+}
+
+@media screen and (max-width: 380px) {
+	.portfolio__icon {
+		width: 18px;
+		height: 50px;
+		background-size: contain;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.portfolio__title {
+		font-size: 14px;
+		line-height: 143%;
+		margin-bottom: 40px;
+	}
+
+	.portfolio__icon {
+		height: 28px;
+		padding-bottom: 19px;
+		background-size: contain;
+	}
+
+	.portfolio__link:nth-child(3) > .portfolio__src {
+		margin-bottom: 70px;
+	}
+}
