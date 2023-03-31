@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
 
 function Movies() {
@@ -107,10 +108,15 @@ function Movies() {
 	return (
 		<section className='movies'>
 			<SearchForm></SearchForm>
-			<MoviesCardList
-				isListCards={isListCards}
-				setListCards={setListCards}
-			></MoviesCardList>
+			{true ? (
+				''
+			) : (
+				<MoviesCardList
+					isListCards={isListCards}
+					setListCards={setListCards}
+				></MoviesCardList>
+			)}
+			{/* <Preloader /> */}
 		</section>
 	);
 }

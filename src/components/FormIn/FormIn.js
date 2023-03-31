@@ -1,12 +1,26 @@
+import { useState } from 'react';
 import logo from '../../images/logo.svg';
-function FormIn({ children, title, underButton, buttonName }) {
+function FormIn({
+	children,
+	title,
+	underButton,
+	buttonName,
+	buttonInnactive,
+	onSubmit,
+}) {
 	return (
 		<section className='formIn'>
 			<img className='formIn__logo' alt='Логотип' src={logo}></img>
 			<h2 className='formIn__title'>{title}</h2>
-			<form className='formIn__form' noValidate>
+			<form onSubmit={onSubmit} className='formIn__form' noValidate>
 				{children}
-				<button className='formIn__submit' type='submit'>
+				<button
+					disabled={buttonInnactive ? true : false}
+					className={`formIn__submit ${
+						buttonInnactive ? 'formIn__submit_disabled' : ''
+					}`}
+					type='submit'
+				>
 					{buttonName}
 				</button>
 			</form>

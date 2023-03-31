@@ -1,48 +1,53 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { api } from '../../utils/MainApi';
+import { setUser } from '../../utils/rootReducer';
 import FormIn from '../FormIn/FormIn';
+import { isValid, useForm } from '../FormValidation/FormValidation';
 
-function Login() {
-	const [isEmail, setEmail] = useState('');
+function Login({ onSubmitLogin }) {
+	const history = useNavigate();
+	const { values, handleChange, isButtonInactive, setButtonInactive } =
+		useForm();
 	const [isValidEmail, setValidEmail] = useState({
 		invalid: true,
 		errorText: '',
 	});
-
-	const [isPassword, setPassword] = useState('');
 	const [isValidPassword, setValidPassword] = useState({
 		invalid: true,
 		errorText: '',
 	});
+	const dispatch = useDispatch();
+	useEffect(() => {
+		if (!isValidEmail.invalid && !isValidPassword.invalid) {
+			setButtonInactive(false);
+		} else setButtonInactive(true);
+	}, [isValidEmail, isValidPassword]);
 
-	function isValid(e, setValid) {
-		if (e.target.validity.valid) {
-			setValid({
-				invalid: false,
-				errorText: '',
-			});
-		} else {
-			setValid({
-				invalid: true,
-				errorText: e.target.validationMessage,
-			});
-		}
-	}
+	const submitLogin = e => {
+		e.preventDefault();
+		onSubmitLogin(values['email'], values['password']);
+	};
+
 	return (
 		<FormIn
 			title='Рады видеть!'
 			buttonName='Войти'
+			buttonInnactive={isButtonInactive}
+			onSubmit={submitLogin}
 			children={
 				<>
 					<div className='formIn__email-block'>
 						<p className='formIn__input-text'>E-mail</p>
 						<input
-							value={isEmail}
+							name='email'
+							value={values['email'] || ''}
 							className={`formIn__email ${
 								isValidEmail.invalid ? 'formIn__input-error' : ''
 							}`}
 							onChange={e => {
-								setEmail(e.target.value);
+								handleChange(e);
 								isValid(e, setValidEmail);
 							}}
 							type='email'
@@ -55,14 +60,15 @@ function Login() {
 					<div className='formIn__password-block'>
 						<p className='formIn__input-text'>Пароль</p>
 						<input
+							name='password'
 							minLength='2'
 							maxLength='200'
-							value={isPassword}
+							value={values['password'] || ''}
 							className={`formIn__password ${
 								isValidPassword.invalid ? 'formIn__input-error' : ''
 							}`}
 							onChange={e => {
-								setPassword(e.target.value);
+								handleChange(e);
 								isValid(e, setValidPassword);
 							}}
 							type='password'

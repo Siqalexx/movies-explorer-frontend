@@ -1,22 +1,24 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-function Profile() {
-	const name = 'alex';
-	const email = 'pochta@yandex.ru';
-	const [isName, setName] = useState(name);
-	const [isEmail, setEmail] = useState(email);
+function Profile({ logoutUser }) {
+	const user = useSelector(state => {
+		return { email: state.user.email, name: state.user.name };
+	});
+
+	const [isName, setName] = useState(user.name);
+	const [isEmail, setEmail] = useState(user.email);
 	const [isEditState, setEditState] = useState(false);
 	return (
 		<section className='profile'>
-			<h2 className='profile__title'>Привет, Виталий!</h2>
+			<h2 className='profile__title'>Привет, {user.name}!</h2>
 			<div className='profile__container profile__container_border'>
 				<p className='profile__container-name'>Имя</p>
 				<input
 					disabled={!isEditState}
 					value={isName}
 					onChange={e => {
-						console.log(1);
 						setName(e.target.value);
 					}}
 					className='profile__data'
@@ -28,7 +30,6 @@ function Profile() {
 					disabled={!isEditState}
 					value={isEmail}
 					onChange={e => {
-						console.log(1);
 						setEmail(e.target.value);
 					}}
 					className='profile__data'
@@ -54,7 +55,11 @@ function Profile() {
 					>
 						Редактировать
 					</Link>
-					<Link to='/signin' className='profile__link profile__link_signout'>
+					<Link
+						to='/'
+						onClick={logoutUser}
+						className='profile__link profile__link_signout'
+					>
 						Выйти из аккаунта
 					</Link>
 				</>
