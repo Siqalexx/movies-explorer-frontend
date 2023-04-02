@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({
+function SavedMovieCardList({
 	isOutputFilms,
 	isFilmsCountVisible,
 	setFilmsCountVisible,
@@ -26,38 +26,23 @@ function MoviesCardList({
 				) : (
 					isOutputFilms.map((card, index) => {
 						return (
-							<li key={card.id} className='moviesCardList__movie'>
+							<li key={card._id} className='moviesCardList__movie'>
 								<MoviesCard
+									savedPage={true}
 									checkSaveFilms={checkSaveFilms}
 									card={card}
 									deleteMovie={deleteMovie}
-									saveMovie={saveMovie}
 									title={card.nameRU}
 									duration={card.duration}
-									photoLink={`https://api.nomoreparties.co${card.image.url}`}
+									photoLink={`${card.image}`}
 								/>
 							</li>
 						);
 					})
 				)}
 			</ul>
-
-			{buttonInnactive && (
-				<button
-					onClick={() => {
-						if (window.innerWidth >= 1280) {
-							setFilmsCountVisible(isFilmsCountVisible + 3);
-						} else {
-							setFilmsCountVisible(isFilmsCountVisible + 2);
-						}
-					}}
-					className='moviesCardList__button'
-				>
-					Ещё
-				</button>
-			)}
 		</section>
 	);
 }
 
-export default MoviesCardList;
+export default SavedMovieCardList;

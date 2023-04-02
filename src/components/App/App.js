@@ -17,12 +17,7 @@ import { api } from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
-	const [loggedIn, setLoggedIn] = useState(false);
-	// useEffect(() => {
-	// 	apiMovie.getFilms().then(data => {});
-	// }, []);
 	const history = useNavigate();
-	// const count = useSelector(state => state.user.email);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -35,7 +30,6 @@ function App() {
 					if (data) {
 						history('/movies');
 						localStorage.setItem('jwt', 'cookie is download');
-						setLoggedIn(true); //входим
 						dispatch(setUser({ email: data.email, name: data.name })); //Заносим данные о пользователе
 					} else {
 						history('/'); //если не авторизированы, то на главную
@@ -50,12 +44,11 @@ function App() {
 			.signIn(email, password)
 			.then(data => {
 				if (data) {
-					console.log(3);
 					api
 						.getUser()
 						.then(res => {
 							localStorage.setItem('jwt', 'cookie is download'); //для проверки авторизации
-							setLoggedIn(true);
+
 							dispatch(setUser({ email: res.email, name: res.name }));
 							history('/movies'); //переходим на страницу фильмов
 						})
@@ -80,7 +73,6 @@ function App() {
 			.logout()
 			.then(res => {
 				localStorage.removeItem('jwt');
-				setLoggedIn(false);
 				dispatch(removeUser());
 			})
 			.catch(err => console.log(err));
@@ -88,16 +80,6 @@ function App() {
 
 	return (
 		<div className='App'>
-			{/* <button
-				style={{ zIndex: 50, width: '500px' }}
-				onClick={() => {
-					// dispatch(setUser({ email: 'lal', name: 'name' }));
-					dispatch(removeUser());
-				}}
-				проверка работы редакс туллкита
-			>
-				INCREMENT {count}
-			</button> */}
 			<Routes>
 				<Route
 					path='/signin'
@@ -109,12 +91,12 @@ function App() {
 				></Route>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Main></Main>}></Route>
-					<Route element={<ProtectedRoute loggedIn={loggedIn} />}>
+					<Route element={<ProtectedRoute />}>
 						<Route
 							path='/profile'
 							element={<Profile logoutUser={logoutUser} />}
 						></Route>
-						<Route path='/movies' element={<Movies></Movies>}></Route>
+						<Route path='/movies' element={<Movies />}></Route>
 						<Route
 							path='/saved-movies'
 							element={<SavedMovies></SavedMovies>}

@@ -1,6 +1,5 @@
 .moviesCard {
-	width: 100%;
-	max-width: 364px;
+	width: 364px;
 	background: #222222;
 	box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
 	display: flex;
@@ -64,6 +63,22 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	transition: 0.5s;
+	cursor: pointer;
+}
+
+.moviesCard__delete {
+	background: none;
+	border: none;
+	width: 30px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: url('../../images/saved_delete.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	transition: 0.5s;
+	cursor: pointer;
 }
 
 .moviesCard__saved_active {

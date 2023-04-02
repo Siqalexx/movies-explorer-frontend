@@ -1,21 +1,20 @@
-import { createAction, createReducer, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	email: 'ss',
+	email: '',
 	name: '',
 };
 
 const toolkitSlice = createSlice({
 	name: 'user',
-	initialState: initialState,
+	initialState: {},
 	reducers: {
 		setUser(state, action) {
 			state.email = action.payload.email;
 			state.name = action.payload.name;
 		},
 		removeUser(state) {
-			state.email = '';
-			state.name = '';
+			return (state = {});
 		},
 	},
 });
