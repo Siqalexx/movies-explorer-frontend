@@ -45,6 +45,20 @@
 	cursor: pointer;
 }
 
+.moviesCardList__notFound {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 50px;
+	line-height: 58px;
+	/* or 116% */
+
+	text-align: center;
+	letter-spacing: -0.04em;
+
+	color: #ffffff;
+}
+
 @media screen and (max-width: 900px) {
 	.moviesCardList__container {
 		column-gap: 30px;
@@ -56,6 +70,9 @@
 	.moviesCardList__container {
 		column-gap: 30px;
 		row-gap: 16px;
+	}
+	.moviesCardList__notFound {
+		font-size: 36px;
 	}
 }
 
@@ -70,5 +87,8 @@
 
 	.moviesCardList__button {
 		max-width: 240px;
+	}
+	.moviesCardList__notFound {
+		font-size: 24px;
 	}
 }

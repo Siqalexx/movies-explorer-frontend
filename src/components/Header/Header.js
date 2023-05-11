@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../../images/logo.svg';
 
 function Header() {
 	const history = useNavigate();
-	const location = useLocation();
-	let state = location.pathname === '/' ? false : true;
+	const userObject = useSelector(state => state.user);
+	let state = Object.entries(userObject).length === 0 ? false : true;
 	const [openBurger, setOpenBurger] = useState(false);
 	return (
 		<header className='header'>

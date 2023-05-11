@@ -25,6 +25,7 @@
 	width: 36px;
 	height: 20px;
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
 }
 
 .filterCheckbox__switch:before {

@@ -1,22 +1,19 @@
-import { useState } from 'react';
-
-function FilterCheckbox() {
-	const [isCheck, setCheck] = useState(false);
+function FilterCheckbox({ isCheckboxMovie, setCheckboxMovie }) {
 	return (
 		<div className='filterCheckbox'>
 			<span className='filterCheckbox__block'>
 				<input
 					className='filterCheckbox__checkbox'
 					type='checkbox'
-					checked={isCheck}
+					checked={isCheckboxMovie}
 					onChange={() => {}}
 				></input>
 				<span
 					onClick={() => {
-						setCheck(!isCheck);
+						setCheckboxMovie(!isCheckboxMovie);
 					}}
 					className={` filterCheckbox__switch ${
-						isCheck ? 'filterCheckbox__switch_check' : ''
+						isCheckboxMovie ? 'filterCheckbox__switch_check' : ''
 					}`}
 				></span>
 			</span>

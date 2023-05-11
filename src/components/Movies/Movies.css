@@ -1,12 +1,27 @@
 .movies {
 	width: 100%;
 	max-width: 1280px;
+	min-height: 70vh;
 	box-sizing: border-box;
 	padding: 0 70px;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	flex-direction: column;
 	align-items: center;
+}
+
+.movies__notFound {
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 48px;
+	line-height: 138%;
+	text-align: right;
+	color: #ffffff;
+	text-decoration: none;
+	transition: opacity 0.5s;
+	padding-bottom: 4px;
+	box-sizing: border-box;
 }
 
 @media screen and (max-width: 900px) {

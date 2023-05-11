@@ -8,6 +8,11 @@
 	width: 38px;
 	height: 38px;
 	display: flex;
+	transition: 0.5s ease-in-out;
+}
+.formIn__logo:hover {
+	cursor: pointer;
+	opacity: 0.6;
 }
 
 .formIn__title {
@@ -96,8 +101,21 @@
 	color: #ffffff;
 	padding: 14px 0;
 	margin: 221px 0 16px;
+	cursor: pointer;
+	transition: all 0.2s ease-in;
 }
 
+.formIn__submit_disabled {
+	opacity: 0.3;
+	cursor: inherit;
+}
+
+.formIn__submit:hover {
+	opacity: 0.6;
+}
+.formIn__submit_disabled:hover {
+	opacity: 0.3;
+}
 .formIn__under-button {
 	font-family: 'Inter';
 	font-style: normal;
@@ -113,6 +131,11 @@
 	margin-left: 6px;
 	color: #4285f4;
 	text-decoration: none;
+	transition: all 0.2s ease-in;
+}
+
+.formIn__link:hover {
+	opacity: 0.6;
 }
 
 .formIn__input-error {

@@ -1,44 +1,58 @@
+import {
+	OPEN_VISIBLE_MOVIES_1280,
+	OPEN_VISIBLE_MOVIES_ANOTHER,
+	WIDTH_SIZE_1280,
+} from '../../utils/constans';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({ isListCards, setListCards }) {
-	const saved = setListCards === undefined ? true : false;
+function MoviesCardList({
+	isOutputFilms,
+	isFilmsCountVisible,
+	setFilmsCountVisible,
+	buttonInnactive,
+	saveMovie,
+	deleteMovie,
+	isSaveMoviesList,
+}) {
+	const checkSaveFilms = (card, setMovieSaved) => {
+		const checkFilms = isSaveMoviesList.find(movie => {
+			return movie.movieId === card.id;
+		});
+		if (checkFilms) {
+			setMovieSaved(true);
+		}
+	};
 	return (
 		<section className='moviesCardList'>
 			<ul className='moviesCardList__container'>
-				{saved
-					? isListCards.map((card, index) => {
-							return (
-								<li>
-									<MoviesCard
-										key={index} //пока индекс
-										title={card.title}
-										duration={card.duration}
-										photoLink={card.photoLink}
-									/>
-								</li>
-							);
-					  })
-					: isListCards.cards
-							.slice(0, isListCards.cardsShow)
-							.map((card, index) => {
-								return (
-									<li className='moviesCardList__movie'>
-										<MoviesCard
-											key={index} //пока индекс
-											title={card.title}
-											duration={card.duration}
-											photoLink={card.photoLink}
-										/>
-									</li>
-								);
-							})}
+				{isOutputFilms.map((card, index) => {
+					return (
+						<li key={card.id} className='moviesCardList__movie'>
+							<MoviesCard
+								checkSaveFilms={checkSaveFilms}
+								card={card}
+								deleteMovie={deleteMovie}
+								saveMovie={saveMovie}
+								title={card.nameRU}
+								duration={card.duration}
+								photoLink={`https://api.nomoreparties.co${card.image.url}`}
+							/>
+						</li>
+					);
+				})}
 			</ul>
 
-			{!saved && (
+			{buttonInnactive && (
 				<button
 					onClick={() => {
-						if (isListCards.cardsShow === 12) {
-							setListCards({ ...isListCards, cardsShow: 18 });
+						if (window.innerWidth >= WIDTH_SIZE_1280) {
+							setFilmsCountVisible(
+								isFilmsCountVisible + OPEN_VISIBLE_MOVIES_1280,
+							);
+						} else {
+							setFilmsCountVisible(
+								isFilmsCountVisible + OPEN_VISIBLE_MOVIES_ANOTHER,
+							);
 						}
 					}}
 					className='moviesCardList__button'

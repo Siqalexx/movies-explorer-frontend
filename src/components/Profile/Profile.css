@@ -100,11 +100,21 @@
 	background: #3456f3;
 	border-radius: 3px;
 	padding: 14px 0;
+	cursor: pointer;
+	transition: all 0.5s ease-in-out;
+}
+
+.profile__save-btn:hover {
+	opacity: 0.6;
 }
 
 .profile__save-btn_disabled {
 	background: #f8f8f8;
 	color: #c2c2c2;
+	cursor: inherit;
+}
+.profile__save-btn_disabled:hover {
+	opacity: 1;
 }
 
 .profile__edit-container {

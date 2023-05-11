@@ -1,55 +1,82 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { api } from '../../utils/MainApi';
 import FormIn from '../FormIn/FormIn';
+import { isValid, useForm } from '../FormValidation/FormValidation';
 
-function Registration() {
-	const [isName, setName] = useState('');
+function Registration({ onSubmitRegistration, errorText, setErrorText }) {
+	const { values, handleChange, isButtonInactive, setButtonInactive } =
+		useForm();
+
 	const [isValidName, setValidName] = useState({
 		invalid: true,
 		errorText: '',
 	});
-
-	const [isEmail, setEmail] = useState('');
 	const [isValidEmail, setValidEmail] = useState({
 		invalid: true,
 		errorText: '',
 	});
-
-	const [isPassword, setPassword] = useState('');
 	const [isValidPassword, setValidPassword] = useState({
 		invalid: true,
 		errorText: '',
 	});
 
-	function isValid(e, setValid) {
+	useEffect(() => {
+		if (
+			!isValidName.invalid &&
+			!isValidEmail.invalid &&
+			!isValidPassword.invalid
+		) {
+			setButtonInactive(false);
+		} else setButtonInactive(true);
+	}, [isValidEmail, isValidName, isValidPassword]);
+
+	const submitRegistration = e => {
+		e.preventDefault();
+		setErrorText('');
+		onSubmitRegistration(
+			values['email'],
+			values['password'],
+			values['name'],
+			setErrorText,
+		);
+	};
+
+	useEffect(() => {
+		setButtonInactive(true);
+	}, [errorText, setButtonInactive]);
+
+	const validateEmail = e => {
+		return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
+			e.target.value,
+		);
+	};
+	const validateNamePsw = e => {
 		if (e.target.validity.valid) {
-			setValid({
-				invalid: false,
-				errorText: '',
-			});
-		} else {
-			setValid({
-				invalid: true,
-				errorText: e.target.validationMessage,
-			});
+			return true;
 		}
-	}
+		return false;
+	};
 	return (
 		<FormIn
 			title='Добро пожаловать!'
 			buttonName='Зарегистрироваться'
+			buttonInnactive={isButtonInactive}
+			onSubmit={submitRegistration}
+			errorText={errorText}
 			children={
 				<>
 					<div className='formIn__email-block'>
 						<p className='formIn__input-text'>Имя</p>
 						<input
-							value={isName}
+							name='name'
+							value={values['name'] || ''}
 							className={`formIn__email ${
 								isValidName.invalid ? 'formIn__input-error' : ''
 							}`}
 							onChange={e => {
-								setName(e.target.value);
-								isValid(e, setValidName);
+								handleChange(e);
+								isValid(e, setValidName, validateNamePsw);
 							}}
 							type='text'
 							minLength='2'
@@ -62,13 +89,14 @@ function Registration() {
 					<div className='formIn__email-block'>
 						<p className='formIn__input-text'>E-mail</p>
 						<input
-							value={isEmail}
+							name='email'
+							value={values['email'] || ''}
 							className={`formIn__email ${
 								isValidEmail.invalid ? 'formIn__input-error' : ''
 							}`}
 							onChange={e => {
-								setEmail(e.target.value);
-								isValid(e, setValidEmail);
+								handleChange(e);
+								isValid(e, setValidEmail, validateEmail);
 							}}
 							type='email'
 							required
@@ -80,15 +108,16 @@ function Registration() {
 					<div className='formIn__password-block'>
 						<p className='formIn__input-text'>Пароль</p>
 						<input
+							name='password'
 							minLength='2'
 							maxLength='200'
-							value={isPassword}
+							value={values['password'] || ''}
 							className={`formIn__password ${
 								isValidPassword.invalid ? 'formIn__input-error' : ''
 							}`}
 							onChange={e => {
-								setPassword(e.target.value);
-								isValid(e, setValidPassword);
+								handleChange(e);
+								isValid(e, setValidPassword, validateNamePsw);
 							}}
 							type='password'
 							required
@@ -103,7 +132,13 @@ function Registration() {
 				<p className='formIn__under-button'>
 					Уже зарегистрированы?
 					<span>
-						<Link className='formIn__link' to='/signin'>
+						<Link
+							onClick={() => {
+								setErrorText('');
+							}}
+							className='formIn__link'
+							to='/signin'
+						>
 							Войти
 						</Link>
 					</span>

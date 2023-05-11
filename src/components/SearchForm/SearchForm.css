@@ -58,6 +58,7 @@
 	border: 1px solid #424242;
 	border-style: none solid none none;
 	transition: all 0.5s;
+	cursor: pointer;
 }
 
 .searchForm__find:hover {
