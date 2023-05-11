@@ -20,20 +20,31 @@ function Profile({ logoutUser }) {
 	const [errorText, setErrorText] = useState('');
 
 	useEffect(() => {
-		console.log(!isValidEmail.invalid, !isValidName.invalid);
 		if (!isValidName && !isValidEmail) {
 			setButtonInnactive(true);
 		} else setButtonInnactive(false);
-	}, [isValidEmail, isValidName]);
+	}, [isName, isEmail]);
 
-	function isValid(e, setValid) {
-		if (e.target.validity.valid) {
+	function isValid(e, setValid, checkValid) {
+		if (checkValid(e)) {
 			setValid(true);
 		} else {
 			setValid(false);
 		}
 	}
 
+	const validateNamePsw = e => {
+		if (e.target.validity.valid) {
+			return true;
+		}
+		return false;
+	};
+
+	const validateEmail = e => {
+		return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
+			e.target.value,
+		);
+	};
 	return (
 		<section className='profile'>
 			<h2 className='profile__title'>Привет, {user.name}!</h2>
@@ -49,7 +60,7 @@ function Profile({ logoutUser }) {
 					type='text'
 					onChange={e => {
 						setName(e.target.value);
-						isValid(e, setValidName);
+						isValid(e, setValidName, validateNamePsw);
 					}}
 					className='profile__data'
 				></input>
@@ -63,7 +74,7 @@ function Profile({ logoutUser }) {
 					type='email'
 					onChange={e => {
 						setEmail(e.target.value);
-						isValid(e, setValidEmail);
+						isValid(e, setValidEmail, validateEmail);
 					}}
 					className='profile__data'
 				></input>
@@ -80,7 +91,7 @@ function Profile({ logoutUser }) {
 									.changeInfoProfile(isEmail, isName)
 									.then(data => {
 										dispatch(setUser({ email: data.email, name: data.name }));
-
+										setButtonInnactive(true);
 										setEditState(false);
 									})
 									.catch(err => {

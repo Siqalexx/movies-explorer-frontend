@@ -3,17 +3,23 @@ import { api } from '../../utils/MainApi';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SavedMovieCardList from '../SavedMovieCardList/SavedMovieCardList';
 import SearchForm from '../SearchForm/SearchForm';
+import Preloader from '../Preloader/Preloader';
+import { DURATION_SHORT_FILM } from '../../utils/constans';
 
 function SavedMovies() {
 	const [isSaveMoviesList, setSaveMoviesList] = useState([]);
 	const [isSearchInput, setSearchInput] = useState('');
 	const [isCheckboxMovie, setCheckboxMovie] = useState(false);
+	const [isNotFoundFilms, setNotFoundFilms] = useState(false);
+	const [isLoading, setLoading] = useState(false);
+	const [saveMovieList, setSaveMovieList] = useState([]);
 	useEffect(() => {
 		api
 			.getSaveMovies()
 			.then(data => {
 				if (data) {
-					return setSaveMoviesList(data);
+					setSaveMovieList(data);
+					return;
 				} else {
 					console.log('error save movies');
 					return;
@@ -27,7 +33,7 @@ function SavedMovies() {
 	function deleteMovie(id, setMovieSaved) {
 		api.deleteMovie(id).then(data => {
 			if (data) {
-				const filterList = isSaveMoviesList.filter(movie => {
+				const filterList = saveMovieList.filter(movie => {
 					return movie._id !== data._id;
 				});
 				setSaveMoviesList(filterList);
@@ -37,10 +43,10 @@ function SavedMovies() {
 	}
 
 	function filterFilms() {
-		return isSaveMoviesList.filter(film => {
+		return saveMovieList.filter(film => {
 			if (isCheckboxMovie) {
 				return (
-					film.duration <= 40 &&
+					film.duration <= DURATION_SHORT_FILM &&
 					(film.nameEN.toLowerCase().includes(isSearchInput.toLowerCase()) ||
 						film.nameRU.toLowerCase().includes(isSearchInput.toLowerCase()))
 				);
@@ -54,9 +60,17 @@ function SavedMovies() {
 
 	async function searchSubmit() {
 		if (isSearchInput) {
-			setSaveMoviesList(filterFilms());
-			localStorage.setItem('isSearchInputSaved', isSearchInput);
+			setLoading(true);
+			const films = await filterFilms();
 
+			if (films.length === 0) {
+				setNotFoundFilms(true);
+			} else {
+				setNotFoundFilms(false);
+			}
+			setSaveMoviesList(films);
+			setLoading(false);
+			localStorage.setItem('isSearchInputSaved', isSearchInput);
 			localStorage.setItem('isCheckboxMovieSaved', isCheckboxMovie);
 		} else {
 			console.log('error');
@@ -72,11 +86,17 @@ function SavedMovies() {
 				isCheckboxMovie={isCheckboxMovie}
 				setCheckboxMovie={setCheckboxMovie}
 			></SearchForm>
-			<SavedMovieCardList
-				isOutputFilms={isSaveMoviesList}
-				isSaveMoviesList={isSaveMoviesList}
-				deleteMovie={deleteMovie}
-			></SavedMovieCardList>
+			{isLoading ? (
+				<Preloader />
+			) : isNotFoundFilms ? (
+				<h2 className='moviesCardList__notFound'>Ничего не найдено</h2>
+			) : (
+				<SavedMovieCardList
+					isSaveMoviesList={isSaveMoviesList}
+					deleteMovie={deleteMovie}
+				></SavedMovieCardList>
+			)}
+			{}
 		</section>
 	);
 }

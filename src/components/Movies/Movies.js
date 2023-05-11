@@ -4,6 +4,11 @@ import { apiMovie } from '../../utils/MoviesApi';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
+import {
+	DURATION_SHORT_FILM,
+	WIDTH_SIZE_1280,
+	WIDTH_SIZE_480,
+} from '../../utils/constans';
 
 function Movies() {
 	const searchInput = localStorage.getItem('isSearchInput');
@@ -19,6 +24,8 @@ function Movies() {
 	const [isFilmsCountVisible, setFilmsCountVisible] = useState(12);
 	const [buttonInnactive, setButtonInnactive] = useState(false);
 	const [isSaveMoviesList, setSaveMoviesList] = useState([]);
+	const [isNotFoundFilms, setNotFoundFilms] = useState(false);
+	const [isLoading, setLoading] = useState(false);
 
 	function deleteMovie(id, setMovieSaved) {
 		const user = isSaveMoviesList.find(savedMovie => {
@@ -86,11 +93,11 @@ function Movies() {
 	useEffect(() => {
 		function setCountFilms() {
 			return setTimeout(() => {
-				if (window.innerWidth >= 1280) {
+				if (window.innerWidth >= WIDTH_SIZE_1280) {
 					setFilmsCountVisible(12);
-				} else if (window.innerWidth >= 768) {
+				} else if (window.innerWidth >= WIDTH_SIZE_480) {
 					setFilmsCountVisible(7);
-				} else if (window.innerWidth < 480) {
+				} else if (window.innerWidth < WIDTH_SIZE_480) {
 					setFilmsCountVisible(5);
 				}
 			}, 100);
@@ -108,7 +115,7 @@ function Movies() {
 		return filmList.filter(film => {
 			if (isCheckboxMovie) {
 				return (
-					film.duration <= 40 &&
+					film.duration <= DURATION_SHORT_FILM &&
 					(film.nameEN.toLowerCase().includes(isSearchInput.toLowerCase()) ||
 						film.nameRU.toLowerCase().includes(isSearchInput.toLowerCase()))
 				);
@@ -122,6 +129,7 @@ function Movies() {
 
 	async function searchSubmit() {
 		if (filmList.length === 0) {
+			setLoading(true);
 			await apiMovie
 				.getFilms()
 				.then(data => {
@@ -129,7 +137,7 @@ function Movies() {
 						console.log('error');
 						return;
 					}
-
+					setLoading(false);
 					return (filmList = [...data]);
 				})
 				.catch(err => {
@@ -137,7 +145,15 @@ function Movies() {
 				});
 		}
 		if (isSearchInput) {
-			setFilterFilms(filterFilms());
+			const films = filterFilms();
+
+			if (films.length === 0) {
+				setNotFoundFilms(true);
+			} else {
+				setNotFoundFilms(false);
+			}
+			setFilterFilms(films);
+
 			localStorage.setItem('isSearchInput', isSearchInput);
 
 			localStorage.setItem('isCheckboxMovie', isCheckboxMovie);
@@ -162,7 +178,7 @@ function Movies() {
 		} else {
 			setButtonInnactive(false);
 		}
-	}, [isOutputFilms]);
+	}, [isOutputFilms, isFilmsCountVisible, isFilterFilms.length]);
 
 	return (
 		<section className='movies'>
@@ -173,8 +189,10 @@ function Movies() {
 				isCheckboxMovie={isCheckboxMovie}
 				setCheckboxMovie={setCheckboxMovie}
 			></SearchForm>
-			{false ? (
-				''
+			{isLoading ? (
+				<Preloader />
+			) : isNotFoundFilms ? (
+				<h2 className='moviesCardList__notFound'>Ничего не найдено</h2>
 			) : (
 				<MoviesCardList
 					isFilmsCountVisible={isFilmsCountVisible}
@@ -186,7 +204,6 @@ function Movies() {
 					isSaveMoviesList={isSaveMoviesList}
 				></MoviesCardList>
 			)}
-			{/* <Preloader /> */}
 		</section>
 	);
 }

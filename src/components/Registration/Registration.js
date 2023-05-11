@@ -4,7 +4,7 @@ import { api } from '../../utils/MainApi';
 import FormIn from '../FormIn/FormIn';
 import { isValid, useForm } from '../FormValidation/FormValidation';
 
-function Registration({ onSubmitRegistration }) {
+function Registration({ onSubmitRegistration, errorText, setErrorText }) {
 	const { values, handleChange, isButtonInactive, setButtonInactive } =
 		useForm();
 
@@ -33,15 +33,37 @@ function Registration({ onSubmitRegistration }) {
 
 	const submitRegistration = e => {
 		e.preventDefault();
-		onSubmitRegistration(values['email'], values['password'], values['name']);
+		setErrorText('');
+		onSubmitRegistration(
+			values['email'],
+			values['password'],
+			values['name'],
+			setErrorText,
+		);
 	};
 
+	useEffect(() => {
+		setButtonInactive(true);
+	}, [errorText, setButtonInactive]);
+
+	const validateEmail = e => {
+		return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
+			e.target.value,
+		);
+	};
+	const validateNamePsw = e => {
+		if (e.target.validity.valid) {
+			return true;
+		}
+		return false;
+	};
 	return (
 		<FormIn
 			title='Добро пожаловать!'
 			buttonName='Зарегистрироваться'
 			buttonInnactive={isButtonInactive}
 			onSubmit={submitRegistration}
+			errorText={errorText}
 			children={
 				<>
 					<div className='formIn__email-block'>
@@ -54,7 +76,7 @@ function Registration({ onSubmitRegistration }) {
 							}`}
 							onChange={e => {
 								handleChange(e);
-								isValid(e, setValidName);
+								isValid(e, setValidName, validateNamePsw);
 							}}
 							type='text'
 							minLength='2'
@@ -74,7 +96,7 @@ function Registration({ onSubmitRegistration }) {
 							}`}
 							onChange={e => {
 								handleChange(e);
-								isValid(e, setValidEmail);
+								isValid(e, setValidEmail, validateEmail);
 							}}
 							type='email'
 							required
@@ -95,7 +117,7 @@ function Registration({ onSubmitRegistration }) {
 							}`}
 							onChange={e => {
 								handleChange(e);
-								isValid(e, setValidPassword);
+								isValid(e, setValidPassword, validateNamePsw);
 							}}
 							type='password'
 							required

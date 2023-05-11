@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { TIME_DURATION } from '../../utils/constans';
 
 function MoviesCard({
 	title,
@@ -12,8 +13,8 @@ function MoviesCard({
 }) {
 	const [isMovieSaved, setMovieSaved] = useState(false);
 	const setDuration = time => {
-		const minutes = time % 60;
-		const hours = (time - minutes) / 60;
+		const minutes = time % TIME_DURATION;
+		const hours = (time - minutes) / TIME_DURATION;
 		const str = `${hours}ч ${minutes}м`;
 		return str;
 	};
@@ -23,10 +24,15 @@ function MoviesCard({
 	return (
 		<div className='moviesCard'>
 			<div className='moviesCard__container'>
-				<div className='moviesCard__info'>
+				<a
+					href={card.trailerLink}
+					rel='noreferrer'
+					target='_blank'
+					className='moviesCard__info'
+				>
 					<h3 className='moviesCard__title'>{title}</h3>
 					<p className='moviesCard__duration'>{setDuration(duration)}</p>
-				</div>
+				</a>
 
 				<button
 					onClick={e => {
@@ -45,7 +51,9 @@ function MoviesCard({
 					}`}
 				></button>
 			</div>
-			<img alt={title} src={photoLink} className='moviesCard__image'></img>
+			<a href={card.trailerLink} rel='noreferrer' target='_blank'>
+				<img alt={title} src={photoLink} className='moviesCard__image'></img>
+			</a>
 		</div>
 	);
 }

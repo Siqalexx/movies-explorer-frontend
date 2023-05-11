@@ -1,12 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-function ProtectedRoute() {
+function ProtectedEntrance() {
 	const jwt = localStorage.getItem('jwt');
 
-	if (!jwt) {
+	if (jwt) {
 		return <Navigate to='/' />;
 	}
 	return <Outlet />;
 }
 
-export default ProtectedRoute;
+export default ProtectedEntrance;

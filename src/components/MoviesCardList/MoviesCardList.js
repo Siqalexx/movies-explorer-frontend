@@ -1,4 +1,8 @@
-import { useEffect } from 'react';
+import {
+	OPEN_VISIBLE_MOVIES_1280,
+	OPEN_VISIBLE_MOVIES_ANOTHER,
+	WIDTH_SIZE_1280,
+} from '../../utils/constans';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList({
@@ -21,34 +25,34 @@ function MoviesCardList({
 	return (
 		<section className='moviesCardList'>
 			<ul className='moviesCardList__container'>
-				{isOutputFilms.length === 0 ? (
-					<h2 className='moviesCardList__notFound'>Ничего не найдено</h2>
-				) : (
-					isOutputFilms.map((card, index) => {
-						return (
-							<li key={card.id} className='moviesCardList__movie'>
-								<MoviesCard
-									checkSaveFilms={checkSaveFilms}
-									card={card}
-									deleteMovie={deleteMovie}
-									saveMovie={saveMovie}
-									title={card.nameRU}
-									duration={card.duration}
-									photoLink={`https://api.nomoreparties.co${card.image.url}`}
-								/>
-							</li>
-						);
-					})
-				)}
+				{isOutputFilms.map((card, index) => {
+					return (
+						<li key={card.id} className='moviesCardList__movie'>
+							<MoviesCard
+								checkSaveFilms={checkSaveFilms}
+								card={card}
+								deleteMovie={deleteMovie}
+								saveMovie={saveMovie}
+								title={card.nameRU}
+								duration={card.duration}
+								photoLink={`https://api.nomoreparties.co${card.image.url}`}
+							/>
+						</li>
+					);
+				})}
 			</ul>
 
 			{buttonInnactive && (
 				<button
 					onClick={() => {
-						if (window.innerWidth >= 1280) {
-							setFilmsCountVisible(isFilmsCountVisible + 3);
+						if (window.innerWidth >= WIDTH_SIZE_1280) {
+							setFilmsCountVisible(
+								isFilmsCountVisible + OPEN_VISIBLE_MOVIES_1280,
+							);
 						} else {
-							setFilmsCountVisible(isFilmsCountVisible + 2);
+							setFilmsCountVisible(
+								isFilmsCountVisible + OPEN_VISIBLE_MOVIES_ANOTHER,
+							);
 						}
 					}}
 					className='moviesCardList__button'

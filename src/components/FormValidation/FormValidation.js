@@ -20,8 +20,8 @@ export function useForm() {
 	};
 }
 
-export function isValid(e, setValid) {
-	if (e.target.validity.valid) {
+export function isValid(e, setValid, checkValid) {
+	if (checkValid(e)) {
 		setValid({
 			invalid: false,
 			errorText: '',

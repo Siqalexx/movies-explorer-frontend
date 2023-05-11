@@ -1,5 +1,3 @@
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
 import Main from '../Main/Main';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Layout from '../Loyout/Loyout';
@@ -10,25 +8,26 @@ import Movies from '../Movies/Movies';
 import { useEffect, useState } from 'react';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
-import { apiMovie } from '../../utils/MoviesApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeUser, setUser } from '../../utils/rootReducer';
 import { api } from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import ProtectedEntrance from '../ProtectedEntrance/ProtectedEntrance.js';
 
 function App() {
+	const [errorText, setErrorText] = useState('');
 	const history = useNavigate();
 	const dispatch = useDispatch();
-
-	useEffect(() => {
+	function checkJWT() {
 		const jwt = localStorage.getItem('jwt');
+
 		//проверка есть ли jwt в локал storage, который записывается туда при авторизации
 		if (jwt) {
 			api
 				.getUser()
 				.then(data => {
 					if (data) {
-						history('/movies');
+						//history('/movies');
 						localStorage.setItem('jwt', 'cookie is download');
 						dispatch(setUser({ email: data.email, name: data.name })); //Заносим данные о пользователе
 					} else {
@@ -37,9 +36,12 @@ function App() {
 				})
 				.catch(err => console.log(err));
 		}
+	}
+	useEffect(() => {
+		checkJWT();
 	}, []);
 
-	function onSubmitLogin(email, password) {
+	function onSubmitLogin(email, password, setErrorText) {
 		api
 			.signIn(email, password)
 			.then(data => {
@@ -48,25 +50,35 @@ function App() {
 						.getUser()
 						.then(res => {
 							localStorage.setItem('jwt', 'cookie is download'); //для проверки авторизации
-
 							dispatch(setUser({ email: res.email, name: res.name }));
 							history('/movies'); //переходим на страницу фильмов
 						})
-						.catch(err => console.log(err));
+						.catch(err => {
+							console.log(err);
+							setErrorText(err);
+							return err;
+						});
 				}
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				console.log(err);
+				setErrorText(err);
+				return err;
+			});
 	}
 
-	function onSubmitRegistration(email, password, name) {
+	function onSubmitRegistration(email, password, name, setErrorText) {
 		api
 			.signUp(email, password, name)
 			.then(data => {
 				if (data) {
-					onSubmitLogin(email, password);
+					onSubmitLogin(email, password, setErrorText);
 				}
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				setErrorText(err);
+				console.log(err);
+			});
 	}
 	function logoutUser() {
 		api
@@ -76,34 +88,51 @@ function App() {
 				dispatch(removeUser());
 			})
 			.catch(err => console.log(err));
+		localStorage.removeItem('isSearchInputSaved');
+		localStorage.removeItem('isCheckboxMovieSaved');
+		localStorage.removeItem('isSearchInput');
+		localStorage.removeItem('isCheckboxMovie');
+		localStorage.removeItem('isFilmsCountVisible');
 	}
 
 	return (
 		<div className='App'>
 			<Routes>
-				<Route
-					path='/signin'
-					element={<Login onSubmitLogin={onSubmitLogin} />}
-				></Route>
-				<Route
-					path='/signup'
-					element={<Registration onSubmitRegistration={onSubmitRegistration} />}
-				></Route>
+				<Route element={<ProtectedEntrance />}>
+					<Route
+						path='/signin'
+						element={
+							<Login
+								onSubmitLogin={onSubmitLogin}
+								errorText={errorText}
+								setErrorText={setErrorText}
+							/>
+						}
+					/>
+					<Route
+						path='/signup'
+						element={
+							<Registration
+								onSubmitRegistration={onSubmitRegistration}
+								errorText={errorText}
+								setErrorText={setErrorText}
+							/>
+						}
+					/>
+				</Route>
+
 				<Route path='/' element={<Layout />}>
-					<Route index element={<Main></Main>}></Route>
+					<Route index element={<Main />} />
 					<Route element={<ProtectedRoute />}>
 						<Route
 							path='/profile'
 							element={<Profile logoutUser={logoutUser} />}
-						></Route>
-						<Route path='/movies' element={<Movies />}></Route>
-						<Route
-							path='/saved-movies'
-							element={<SavedMovies></SavedMovies>}
-						></Route>
+						/>
+						<Route path='/movies' element={<Movies />} />
+						<Route path='/saved-movies' element={<SavedMovies />} />
 					</Route>
 				</Route>
-				<Route path='/*' element={<ErrorPage></ErrorPage>}></Route>
+				<Route path='/*' element={<ErrorPage />} />
 			</Routes>
 		</div>
 	);

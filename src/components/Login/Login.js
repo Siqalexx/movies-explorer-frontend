@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { api } from '../../utils/MainApi';
-import { setUser } from '../../utils/rootReducer';
+
+import { Link } from 'react-router-dom';
+
 import FormIn from '../FormIn/FormIn';
 import { isValid, useForm } from '../FormValidation/FormValidation';
 
-function Login({ onSubmitLogin }) {
-	const history = useNavigate();
+function Login({ onSubmitLogin, errorText, setErrorText }) {
 	const { values, handleChange, isButtonInactive, setButtonInactive } =
 		useForm();
 	const [isValidEmail, setValidEmail] = useState({
@@ -18,24 +16,42 @@ function Login({ onSubmitLogin }) {
 		invalid: true,
 		errorText: '',
 	});
-	const dispatch = useDispatch();
+
 	useEffect(() => {
 		if (!isValidEmail.invalid && !isValidPassword.invalid) {
 			setButtonInactive(false);
 		} else setButtonInactive(true);
-	}, [isValidEmail, isValidPassword]);
+	}, [isValidEmail, isValidPassword, setButtonInactive]);
 
 	const submitLogin = e => {
 		e.preventDefault();
-		onSubmitLogin(values['email'], values['password']);
+		setErrorText('');
+		onSubmitLogin(values['email'], values['password'], setErrorText);
 	};
 
+	useEffect(() => {
+		setButtonInactive(true);
+	}, [errorText, setButtonInactive]);
+
+	const validateEmail = e => {
+		return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
+			e.target.value,
+		);
+	};
+	const validateNamePsw = e => {
+		if (e.target.validity.valid) {
+			return true;
+		}
+		return false;
+	};
 	return (
 		<FormIn
 			title='Рады видеть!'
 			buttonName='Войти'
 			buttonInnactive={isButtonInactive}
+			setButtonInactive={setButtonInactive}
 			onSubmit={submitLogin}
+			errorText={errorText}
 			children={
 				<>
 					<div className='formIn__email-block'>
@@ -48,7 +64,7 @@ function Login({ onSubmitLogin }) {
 							}`}
 							onChange={e => {
 								handleChange(e);
-								isValid(e, setValidEmail);
+								isValid(e, setValidEmail, validateEmail);
 							}}
 							type='email'
 							required
@@ -69,7 +85,7 @@ function Login({ onSubmitLogin }) {
 							}`}
 							onChange={e => {
 								handleChange(e);
-								isValid(e, setValidPassword);
+								isValid(e, setValidPassword, validateNamePsw);
 							}}
 							type='password'
 							required

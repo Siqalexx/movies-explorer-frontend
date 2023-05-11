@@ -23,6 +23,7 @@ class Api {
 			})
 			.catch(err => {
 				console.log(err);
+				return Promise.reject(err);
 			});
 	}
 
@@ -43,6 +44,7 @@ class Api {
 			})
 			.catch(err => {
 				console.log(err);
+				return Promise.reject(err);
 			});
 	}
 
@@ -80,6 +82,7 @@ class Api {
 			})
 			.catch(err => {
 				console.log(err);
+				return Promise.reject(err);
 			});
 	}
 
