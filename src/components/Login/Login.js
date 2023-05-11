@@ -100,7 +100,13 @@ function Login({ onSubmitLogin, errorText, setErrorText }) {
 				<p className='formIn__under-button'>
 					Ещё не зарегистрированы?
 					<span>
-						<Link className='formIn__link' to='/signup'>
+						<Link
+							onClick={() => {
+								setErrorText('');
+							}}
+							className='formIn__link'
+							to='/signup'
+						>
 							Регистрация
 						</Link>
 					</span>

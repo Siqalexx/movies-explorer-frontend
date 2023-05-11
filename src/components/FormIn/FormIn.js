@@ -17,7 +17,7 @@ function FormIn({
 		errorTrancription = 'Неправильный логин или пароль';
 	} else if (errorText.split(' ')[1] === '409') {
 		errorTrancription = 'Пользователь с таким email уже существует';
-	} else {
+	} else if (errorText.split(' ')[1]) {
 		errorTrancription = 'Ошибка! Попробуйте еще раз.';
 	}
 	return (

@@ -132,7 +132,13 @@ function Registration({ onSubmitRegistration, errorText, setErrorText }) {
 				<p className='formIn__under-button'>
 					Уже зарегистрированы?
 					<span>
-						<Link className='formIn__link' to='/signin'>
+						<Link
+							onClick={() => {
+								setErrorText('');
+							}}
+							className='formIn__link'
+							to='/signin'
+						>
 							Войти
 						</Link>
 					</span>
